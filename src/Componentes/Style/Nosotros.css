@@ -1,0 +1,8 @@
+.SeccionNosotros{
+  width:100%;
+  height:800px;
+}
+.SeccionNosotros .Texto_Nosotros{
+  background-color: #000000;
+  color: #ffffff;
+}

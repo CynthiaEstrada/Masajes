@@ -1,0 +1,15 @@
+.ContenedorReserva{
+  position: absolute;
+}
+
+
+.ContenedorReserva .Formulario .DatosPersonales{
+  position:relative;
+  margin-left: 50%;
+  margin-right: 50%;
+
+}
+
+.ContenedorReserva p{
+  margin-top: 5%;
+}
