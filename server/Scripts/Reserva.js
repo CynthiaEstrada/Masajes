@@ -1,7 +1,20 @@
 
 function GuardarHora(bd, res, datos){
-  var ref=bd.ref('/horas');
-  ref.push({hora: datos.hora}).then(()=>{res.send('Ok')})
+  var ref=bd.ref('/cita');
+  ref.push({
+    hora: datos.hora,
+    dia:datos.dia,
+    tipo:datos.tipo}).then(()=>{res.send('Ok')})
+}
+
+function GuardarDia(bd, res, datos){
+  var ref=bd.ref('/dia');
+  ref.push({dia: datos.dia}).then(()=>{res.send('Ok')})
+}
+
+function GuardarTipo(bd, res, datos){
+  var ref=bd.ref('/tipo');
+  ref.push({masaje: datos.masaje}).then(()=>{res.send('Ok')})
 }
 
 function ObtenerHoras(bd, res){
@@ -28,4 +41,6 @@ function ObtenerHoras(bd, res){
   })
 }
 exports.GuardarHora = GuardarHora;
+exports.GuardarDia = GuardarDia;
+exports.GuardarTipo = GuardarTipo;
 exports.ObtenerHoras = ObtenerHoras;

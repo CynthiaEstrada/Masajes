@@ -39,7 +39,11 @@ componentDidMount(){
 }
 
 GuardarHora =() => {
-  axios.post(DireccionServer+`/guardarhora`,{hora:this.state.hora})
+  axios.post(DireccionServer+`/guardarhora`,{
+    hora:this.state.hora,
+    dia:this.state.fecha,
+    tipo:this.state.masaje
+  })
   .then(res => {
     let respuesta=res.data;
     if(respuesta=='Ok'){
@@ -48,6 +52,9 @@ GuardarHora =() => {
 });
 }
 
+Guardar=() => {
+  this.GuardarHora();
+}
 render(){
   return(
     <div className="ContenedorReserva">
@@ -90,7 +97,7 @@ render(){
       <h1>{this.state.fecha.toString()}</h1>
 
       <div className ='HeaderReserva'>
-      <button onClick={this.GuardarHora}>Aceptar</button>
+      <button onClick={this.Guardar}>Aceptar</button>
 
       <div className= 'ListaHoras'>
       {
