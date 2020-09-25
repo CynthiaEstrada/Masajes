@@ -16,12 +16,14 @@ constructor(props){
     masaje: props.location.aboutProps !== undefined ? props.location.aboutProps.options2 : 'none',
     fecha: props.location.aboutProps !== undefined ? props.location.aboutProps.dateDatePicker : 'none',
     opciones: [{key:1, text:'Femenino', value:'f'}, {key:1, text:'Masculino', value:'m'}, {key:3, text:'Otro', value:'undefined'}],
-    arrayho: new Array()
+    arrayho: new Array(),
+    nombre:'', apellido:'', edad:'', sexo:'', numero:'', correo:''
 
   }
 }
 
-handleChange=value=>{
+
+handleChange=(e,{value})=>{
   this.setState({
       sexSelection: value
     });
@@ -38,11 +40,17 @@ componentDidMount(){
 });
 }
 
-GuardarHora =() => {
+GuardarCita =() => {
   axios.post(DireccionServer+`/guardarhora`,{
     hora:this.state.hora,
     dia:this.state.fecha,
-    tipo:this.state.masaje
+    tipo:this.state.masaje,
+    nombre:this.state.nombre,
+    apellido:this.state.apellido,
+    edad:this.state.edad,
+    sexo:this.state.sexSelection,
+    numero:this.state.numero,
+    correo:this.state.correo
   })
   .then(res => {
     let respuesta=res.data;
@@ -52,8 +60,28 @@ GuardarHora =() => {
 });
 }
 
-Guardar=() => {
-  this.GuardarHora();
+ChangeState =(nom, ape, ed, num, corr)=>{
+
+  this.setState({
+    nombre: nom,
+    apellido:ape,
+    edad:ed,
+    numero:num,
+    correo:corr
+  });
+}
+
+TomarDatos=() => {
+  var nom = document.getElementById('inputNombre').value;
+  var ape = document.getElementById('inputApellido').value;
+  var ed = document.getElementById('inputEdad').value;
+  var num = document.getElementById('inputNumero').value;
+  var corr = document.getElementById('inputEmail').value;
+
+  this.ChangeState(nom, ape, ed, num, corr);
+  console.log(this.state.nombre, this.state.apellido, this.state.edad, this.state.numero, this.state.correo);
+  this.GuardarCita();
+
 }
 render(){
   return(
@@ -63,31 +91,32 @@ render(){
 
       <p>Nombre</p>
       <Input placeholder='Nombre' type='text'
-      value={this.state.nombre}/>
+      id='inputNombre'/>
 
       <p>Apellido</p>
       <Input placeholder='Apellido' type='text'
-      value={this.state.apellido}/>
+      id='inputApellido'/>
 
       <p>Edad</p>
       <Input placeholder='Edad' type='text'
-      value={this.state.edad}/>
+      id='inputEdad'/>
 
       <p>Sexo</p>
 
       <Dropdown placeholder='Sexo'
       search selection options={this.state.opciones}
-      onChange={this.handleOptions}
-      value={this.state.opcionSeleccionada}/>
+      onChange={this.handleChange}
+      value={this.state.sexSelection}/>
 
       <p>Numero de Contacto</p>
-      <Input placeholder='Numero Telefonico' type='text'
-      value={this.state.numero}/>
+      <Input placeholder='(000) 000 0000)' type='tel'
+      id='inputNumero'/>
 
       <p>Correo</p>
       <Input placeholder='correo@dominio.com' type='email'
-      value={this.state.correo}/>
+      id='inputEmail'/>
 
+      <button onClick={this.TomarDatos}>Prueba</button>
       </div>
       </div>
 
@@ -97,7 +126,7 @@ render(){
       <h1>{this.state.fecha.toString()}</h1>
 
       <div className ='HeaderReserva'>
-      <button onClick={this.Guardar}>Aceptar</button>
+      <button onClick={this.GuardarCita}>Aceptar</button>
 
       <div className= 'ListaHoras'>
       {
